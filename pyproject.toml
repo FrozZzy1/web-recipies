@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "web-recipes"
+version = "0.1.0"
+description = ""
+authors = ["FrozZzy1 <frozzzy71@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+sqlalchemy = "^2.0.30"
+aiosqlite = "^0.20.0"
+flake8 = "^7.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
