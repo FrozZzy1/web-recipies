@@ -10,6 +10,7 @@ from routers.recipe_ingredient import recipe_ingredient_router
 
 from pages.ingredient import router as ingredient_pages_router
 from pages.category import router as category_pages_router
+from pages.recipe import router as recipe_pages_router
 
 
 @asynccontextmanager
@@ -30,3 +31,4 @@ app.include_router(recipe_router)
 app.include_router(recipe_ingredient_router)
 app.include_router(ingredient_pages_router)
 app.include_router(category_pages_router)
+app.include_router(recipe_pages_router)

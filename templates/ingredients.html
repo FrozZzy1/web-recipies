@@ -6,15 +6,21 @@
 
 {% block content %}
 <div>
-    <div class="flex rounded-3 border-2 p-3 ml-20 mr-20">
+    <div class="text-center font-bold text-2xl mt-5 mb-5">
+        Добавление ингредиента:
+    </div>
+    <div class="flex rounded-3 border-2 p-3 ml-64 mr-64">
         <form action="{{ url_for('create_ingredient_template') }}" method="post">
             <label for="name">Введите название: </label><br>
             <input class="border-2" type="text" id="new_name" name="name" required><br><br>
             <button class="font-bold" type="sumbit">Добавить ингредиент</button>
         </form>
     </div>
+    <div class="text-center font-bold text-2xl mt-5 mb-5">
+        Ингредиенты:
+    </div>
     {% for ingredient in ingredients %}
-        <div class="flex rounded-3 border-2 p-3 ml-20 mr-20">
+        <div class="flex rounded-3 border-2 p-3 ml-64 mr-64">
             <div class="flex flex-col">
                 <span class="text-2xl font-bold">{{ ingredient.name }}</span>
                 <form action="{{ url_for('delete_ingredient_template', id=ingredient.id) }}" method="post">
@@ -22,7 +28,7 @@
                 </form>
                 <form action="{{ url_for('update_ingredient_template', id=ingredient.id) }}" method="post">
                     <label for="name">Название ингредиента: </label>
-                    <input type="text" id="new_name" name="name" value="{{ ingredient.name }}" required><br><br>
+                    <input class="border-2" type="text" id="new_name" name="name" value="" required><br><br>
                     <button type="submit">Обновить ингредиент</button>
                 </form>
                 

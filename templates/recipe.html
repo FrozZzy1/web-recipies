@@ -1,0 +1,15 @@
+{% extends "header.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+<div class="flex rounded-3 border-2 p-3 ml-64 mr-64">
+    <div class="flex flex-col">
+        <span class="text-2xl font-bold">{{ recipe.name }}</span>
+    <div> Категория: {{ recipe.category['category'].name }}</div>
+    <div> Рейтинг: {{ recipe.rating }}</div>
+</div>
+{% endblock %}
+

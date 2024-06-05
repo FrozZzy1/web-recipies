@@ -29,9 +29,9 @@ class IngredientRepository:
                 )
                 current_session.add(ingredient)
                 await current_session.commit()
-                
+
                 return {'data': ingredient}
-    
+
     @classmethod
     async def get_all(cls):
         async with session() as current_session:

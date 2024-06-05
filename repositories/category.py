@@ -46,6 +46,17 @@ class CategoryRepository:
             return result_orm
 
     @classmethod
+    async def get_id_by_name(cls, name: str):
+        async with session() as current_session:
+            query = (
+                select(CategoryOrm)
+                .where(CategoryOrm.name == name)
+            )
+            result = await current_session.execute(query)
+            result_orm = result.scalars().first()
+            return result_orm.id
+
+    @classmethod
     async def delete_by_id(cls, id: int):
         async with session() as current_session:
             query = delete(CategoryOrm).where(CategoryOrm.id == id)

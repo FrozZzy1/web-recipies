@@ -5,6 +5,7 @@ from models.ingredient import Ingredient
 
 
 class Recipe(BaseModel):
+    id: int | None = None
     name: str
     category_id: int
     category: Category | None = None
