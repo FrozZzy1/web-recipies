@@ -7,7 +7,7 @@ from routers.category import get_by_id as get_category_by_id
 from fastapi import APIRouter
 
 router = APIRouter(
-    prefix='/recipes_pages',
+    prefix='/recipe_pages',
     tags=['Recipes pages']
 )
 

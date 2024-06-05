@@ -7,18 +7,19 @@
     {% block head %}{% endblock %}
     <title>Рецепты</title>
 </head>
-<body>
-    <nav class="flex justify-between text-3xl my-3">
-        <ul class="flex ml-10">
-            <li><a href="/"></a>Главная</li>
-        </ul>
-        <ul class="flex gap-5 mr-10">
-            <li><a href="/recipes_pages">Рецепты</li>
-            <li><a href="/category_pages">Категории</a></li>
-            <li><a href="/ingredient_pages">Ингредиенты</a></li>
-        </ul>
-    </nav>
-    <hr>
+<body class="bg-gray-100">
+    <header class="bg-green-500 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Главная</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="/recipe_pages" class="hover:text-gray-200">Рецепты</a></li>
+                    <li><a href="/category_pages" class="hover:text-gray-200">Категории</a></li>
+                    <li><a href="/ingredient_pages" class="hover:text-gray-200">Ингредиенты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
     <div id="content">
         {% block content %}{% endblock %}
     </div>

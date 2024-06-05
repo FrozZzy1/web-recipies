@@ -4,12 +4,30 @@
 {% endblock %}
 
 {% block content %}
+    <main class="flex justify-center items-center min-h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+            <h1 class="text-2xl font-bold mb-4">{{ recipe.name }}</h1>
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center">
+                    <span class="font-semibold mr-2">Рейтинг:</span>
+                    <span class="text-yellow-500">{{ recipe.rating }}</span>
+                </div>
+                <div class="flex items-center">
+                    <span class="font-semibold mr-2">Категория:</span>
+                    <span>{{ recipe.category['category'].name }}</span>
+                </div>
+            </div>
+            <div class="ingredients">
+                <h2 class="text-xl font-semibold mb-4">Ингредиенты</h2>
+                <ul class="list-disc list-inside">
+                    <li class="mb-2">Савоярди - 200 г</li>
+                    <li class="mb-2">Кофе - 100 мл</li>
+                    <li class="mb-2">Маскарпоне - 250 г</li>
+                    <li class="mb-2">Сахар - 100 г</li>
+                    <li class="mb-2">Яйца - 3 шт.</li>
+                    <li class="mb-2">Какао - 20 г</li>
+                </ul>
+            </div>
+        </div>
 
-<div class="flex rounded-3 border-2 p-3 ml-64 mr-64">
-    <div class="flex flex-col">
-        <span class="text-2xl font-bold">{{ recipe.name }}</span>
-    <div> Категория: {{ recipe.category['category'].name }}</div>
-    <div> Рейтинг: {{ recipe.rating }}</div>
-</div>
 {% endblock %}
-
