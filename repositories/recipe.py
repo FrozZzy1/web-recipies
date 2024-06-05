@@ -1,11 +1,14 @@
-import sqlalchemy
 from contextlib import suppress
-from sqlalchemy import select, delete
+
+import sqlalchemy
+from sqlalchemy import delete, select
 from sqlalchemy.orm import joinedload
 
-from models.recipe import Recipe
 from database.database import session
+from models.recipe import Recipe
+from orm.ingredient import IngredientOrm
 from orm.recipe import RecipeOrm
+from orm.recipe_ingredient import RecipeIngredientOrm
 
 
 class RecipeRepository:
@@ -47,10 +50,19 @@ class RecipeRepository:
                 select(RecipeOrm)
                 .where(RecipeOrm.id == id)
             )
+            ingredients_query = await current_session.execute(
+                select(IngredientOrm.name, RecipeIngredientOrm.grams_amount)
+                .join(RecipeIngredientOrm, IngredientOrm.id == RecipeIngredientOrm.ingredient_id)
+                .filter(RecipeIngredientOrm.recipe_id == id)
+            )
+            ingredients = ingredients_query.all()
+            
+            ingredients_list = [{'name': ingredient[0], 'grams': ingredient[1]} for ingredient in ingredients]
+            
             result = await current_session.execute(query)
-            result_orm = result.scalar()
-
-            return result_orm
+            result_orm: RecipeOrm = result.scalar()
+            
+            return result_orm, ingredients_list
         
     @classmethod
     async def delete_by_id(cls, id: int):
@@ -68,7 +80,7 @@ class RecipeRepository:
         rating: int,
     ):
         async with session() as current_session:
-            recipe = await cls.get_by_id(id)
+            recipe, _ = await cls.get_by_id(id)
             recipe.name = name
             recipe.category_id = category_id
             recipe.rating = rating

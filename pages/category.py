@@ -1,8 +1,8 @@
-from fastapi import Depends, Request
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-from routers.category import get_all, delete, update, create
 
-from fastapi import APIRouter
+from routers.category import create, delete, get_all, update
 
 router = APIRouter(
     prefix='/category_pages',
@@ -19,12 +19,8 @@ async def create_category_template(
     form = await request.form()
     name = form['name']
     await create(name)
-    return templates.TemplateResponse(
-        'categories.html',
-        {
-            'request': request,
-        }
-    )
+    
+    return RedirectResponse('/category_pages', status_code=303)
 
 
 @router.get('')
@@ -43,12 +39,7 @@ async def get_categories_template(
 @router.post('/delete/id={id}')
 async def delete_category_template(request: Request, id: int):
     await delete(id)
-    return templates.TemplateResponse(
-        'categories.html',
-        {
-            'request': request,
-        }
-    )
+    return RedirectResponse('/category_pages', status_code=303)
 
 
 @router.post('/update/id={id}')
@@ -59,9 +50,4 @@ async def update_category_template(
     form = await request.form()
     name = form['name']
     await update(id, name)
-    return templates.TemplateResponse(
-        'categories.html',
-        {
-            'request': request,
-        }
-    )
+    return RedirectResponse('/category_pages', status_code=303)

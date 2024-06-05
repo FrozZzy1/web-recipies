@@ -1,10 +1,10 @@
-from fastapi import Depends, Request
+from fastapi import APIRouter, Depends, Request
+from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
-from routers.recipe import get_all, create, delete, update, get_by_id
+
 from routers.category import get_all as get_all_categories
 from routers.category import get_by_id as get_category_by_id
-
-from fastapi import APIRouter
+from routers.recipe import create, delete, get_all, get_by_id, update
 
 router = APIRouter(
     prefix='/recipe_pages',
@@ -19,17 +19,12 @@ async def create_recipe_template(
     request: Request,
 ):
     form = await request.form()
-    print(form)
     name = form['name']
     category_id = int(form['category'])
     rating = int(form['rating'])
     await create(name, category_id, rating)
-    return templates.TemplateResponse(
-        'recipes.html',
-        {
-            'request': request,
-        }
-    )
+    
+    return RedirectResponse('/recipe_pages', status_code=303)
 
 
 @router.get('')
@@ -51,12 +46,8 @@ async def get_recipe_template(
 @router.post('/delete/id={id}')
 async def delete_recipe_template(request: Request, id: int):
     await delete(id)
-    return templates.TemplateResponse(
-        'recipes.html',
-        {
-            'request': request,
-        }
-    )
+    
+    return RedirectResponse('/recipe_pages', status_code=303)
 
 
 @router.post('/update/id={id}')
@@ -69,12 +60,8 @@ async def update_recipe_template(
     category_id = int(form['category'])
     rating = int(form['rating'])
     await update(id, name, category_id, rating)
-    return templates.TemplateResponse(
-        'recipes.html',
-        {
-            'request': request,
-        }
-    )
+
+    return RedirectResponse('/recipe_pages', status_code=303)
 
 
 @router.get('/recipe/{id}')
@@ -85,11 +72,13 @@ async def get_recipe(
     recipe = await get_by_id(id)
     recipe['data'].category = await get_category_by_id(
         recipe['data'].category_id
-    )
+    )    
+
     return templates.TemplateResponse(
         'recipe.html',
         {
             'request': request,
             'recipe': recipe['data'],
+            'ingredients': recipe['ingredients'],
         }
     )

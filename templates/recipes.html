@@ -5,49 +5,67 @@
 
 
 {% block content %}
-<div>
-    <div class="flex rounded-3 border-2 p-3 ml-20 mr-20">
+<div class="container mx-auto p-8">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Добавить новый рецепт</h2>
         <form action="{{ url_for('create_recipe_template') }}" method="post">
-            <label for="name">Введите название: </label><br>
-            <input class="border-2" type="text" id="new_name" name="name" required><br><br>
-            <label for="name">Выберите категорию: </label><br>
-                <select name="category">
+            <div class="mb-4">
+                <label class="block text-gray-700" for="new_name">Введите название: </label>
+                <input class="border-2 border-gray-300 p-2 w-full rounded-lg" type="text" id="new_name" name="name" required>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700" for="category">Выберите категорию: </label>
+                <select class="border-2 border-gray-300 p-2 w-full rounded-lg" name="category">
                     {% for category in categories %}
                         <option value="{{ category.id }}">{{ category.name }}</option>
                     {% endfor %}
-                </select><br><br>
-            <label for="name">Назначьте рейтинг: </label><br>
-            <input class="border-2" type="text" id="new_rating" name="rating" required><br><br>
-            <button class="font-bold" type="sumbit">Добавить рецепт</button>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700" for="new_rating">Назначьте рейтинг: </label>
+                <input class="border-2 border-gray-300 p-2 w-full rounded-lg" type="text" id="new_rating" name="rating" required>
+            </div>
+            <button class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600" type="submit">Добавить рецепт</button>
         </form>
     </div>
+
     {% for recipe in recipes %}
-        <div class="flex rounded-3 border-2 p-3 ml-20 mr-20">
-            <div class="flex flex-col">
-                <form action=" {{ url_for('get_recipe', id=recipe.id) }}" method="get">
-                    <div class="font-bold text-2xl">
-                        <button type="submit">
-                            <option value="{{ recipe.id }}">{{ recipe.name }}</option>
-                        </button>
-                    </div>
-                </form>
-                <form action="{{ url_for('delete_recipe_template', id=recipe.id) }}" method="post">
-                    <button type="submit">Удалить</button>
-                </form>
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <div class="font-bold text-2xl">
+                    <form action="{{ url_for('get_recipe', id=recipe.id) }}" method="get">
+                        <button type="submit" class="text-blue-500 hover:underline">{{ recipe.name }}</button>
+                    </form>
+                </div>
+                <div class="flex space-x-4">
+                    <form action="{{ url_for('delete_recipe_template', id=recipe.id) }}" method="post">
+                        <button class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600" type="submit">Удалить</button>
+                    </form>
+                    <form action="{{ url_for('update_recipe_template', id=recipe.id) }}" method="post">
+                        <button class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600" type="submit">Обновить</button>
+                    </form>
+                </div>
+            </div>
+            <div class="bg-gray-100 p-4 rounded-lg">
                 <form action="{{ url_for('update_recipe_template', id=recipe.id) }}" method="post">
-                    <label for="name">Введите новое название: </label><br>
-                    <input class="border-2" type="text" id="new_name" name="name" required><br><br>
-                    <label for="name">Выберите новую категорию: </label><br>
-                        <select name="category">
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="new_name_{{ recipe.id }}">Введите новое название: </label>
+                        <input class="border-2 border-gray-300 p-2 w-full rounded-lg" type="text" id="new_name_{{ recipe.id }}" name="name" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="new_category_{{ recipe.id }}">Выберите новую категорию: </label>
+                        <select class="border-2 border-gray-300 p-2 w-full rounded-lg" name="category">
                             {% for category in categories %}
                                 <option value="{{ category.id }}">{{ category.name }}</option>
                             {% endfor %}
-                        </select><br><br>
-                    <label for="name">Назначьте новый рейтинг: </label><br>
-                    <input class="border-2" type="text" id="new_rating" name="rating" required><br><br>
-                    <button type="submit">Обновить рецепт</button>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="new_rating_{{ recipe.id }}">Назначьте новый рейтинг: </label>
+                        <input class="border-2 border-gray-300 p-2 w-full rounded-lg" type="text" id="new_rating_{{ recipe.id }}" name="rating" required>
+                    </div>
+                    <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600" type="submit">Сохранить изменения</button>
                 </form>
-                
             </div>
         </div>
     {% endfor %}

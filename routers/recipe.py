@@ -26,8 +26,8 @@ async def get_all() -> dict:
 
 @recipe_router.get('')
 async def get_by_id(id: int) -> dict:
-    recipe = await RecipeRepository.get_by_id(id)
-    return {'data': recipe}
+    recipe, ingredients_list = await RecipeRepository.get_by_id(id)
+    return {'data': recipe, 'ingredients': ingredients_list}
 
 
 @recipe_router.delete('/id={id}')
