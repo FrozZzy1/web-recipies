@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block head %}{% endblock %}
+    <title>Рецепты</title>
+</head>
+<body>
+    <nav class="flex justify-between text-3xl my-3">
+        <ul class="flex ml-10">
+            <li><a href="/"></a>Главная</li>
+        </ul>
+        <ul class="flex gap-5 mr-10">
+            <li><a href="/recipes_pages">Рецепты</li>
+            <li><a href="/category_pages">Категории</a></li>
+            <li><a href="/ingredient_pages">Ингредиенты</a></li>
+        </ul>
+    </nav>
+    <hr>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

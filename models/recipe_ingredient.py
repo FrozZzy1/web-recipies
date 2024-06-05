@@ -1,10 +1,12 @@
 from pydantic import BaseModel
 
 from models.ingredient import Ingredient
-from recipe import Recipe
+from models.recipe import Recipe
 
 
 class RecipeIngredient(BaseModel):
-    recipe: Recipe
-    ingredient: Ingredient
+    recipe_id: int
+    recipe: Recipe | None = None
+    ingredient_id: int
+    ingredient: Ingredient | None = None
     grams_amount: int

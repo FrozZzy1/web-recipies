@@ -3,33 +3,44 @@ import sqlalchemy
 
 from sqlalchemy import delete, select
 
-from models.category import Category
+from models.ingredient import Ingredient
 from database.database import session
-from orm.category import CategoryOrm
+from orm.ingredient import IngredientOrm
 
 
-class CategoryRepository:
+class IngredientRepository:
+    # @classmethod
+    # async def create(cls, data: Ingredient):
+    #     with suppress(sqlalchemy.exc.IntegrityError):
+    #         async with session() as current_session:
+    #             ingredient = IngredientOrm(
+    #                 name=data.name,
+    #             )
+    #             current_session.add(ingredient)
+    #             await current_session.commit()
+    #             return ingredient.id
+
     @classmethod
     async def create(cls, name: str):
         with suppress(sqlalchemy.exc.IntegrityError):
             async with session() as current_session:
-                category = CategoryOrm(
+                ingredient = IngredientOrm(
                     name=name,
                 )
-                current_session.add(category)
+                current_session.add(ingredient)
                 await current_session.commit()
                 
-                return {'data': category}
+                return {'data': ingredient}
     
     @classmethod
     async def get_all(cls):
         async with session() as current_session:
             query = (
-                select(CategoryOrm)
+                select(IngredientOrm)
             )
             result = await current_session.execute(query)
             result_orm = result.scalars().all()
-            result_dto = [Category.model_validate(row, from_attributes=True)
+            result_dto = [Ingredient.model_validate(row, from_attributes=True)
                           for row in result_orm]
             return result_dto
 
@@ -37,8 +48,8 @@ class CategoryRepository:
     async def get_by_id(cls, id: int):
         async with session() as current_session:
             query = (
-                select(CategoryOrm)
-                .where(CategoryOrm.id == id)
+                select(IngredientOrm)
+                .where(IngredientOrm.id == id)
             )
             result = await current_session.execute(query)
             result_orm = result.scalars().first()
@@ -48,16 +59,16 @@ class CategoryRepository:
     @classmethod
     async def delete_by_id(cls, id: int):
         async with session() as current_session:
-            query = delete(CategoryOrm).where(CategoryOrm.id == id)
+            query = delete(IngredientOrm).where(IngredientOrm.id == id)
             await current_session.execute(query)
             await current_session.commit()
 
     @classmethod
     async def update_by_id(cls, id: int, name: str):
         async with session() as current_session:
-            category = await cls.get_by_id(id)
-            category.name = name
-            current_session.add(category)
+            ingredient = await cls.get_by_id(id)
+            ingredient.name = name
+            current_session.add(ingredient)
             await current_session.commit()
 
-            return category
+            return ingredient
