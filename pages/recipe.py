@@ -23,7 +23,7 @@ async def create_recipe_template(
     category_id = int(form['category'])
     rating = int(form['rating'])
     await create(name, category_id, rating)
-    
+
     return RedirectResponse('/recipe_pages', status_code=303)
 
 

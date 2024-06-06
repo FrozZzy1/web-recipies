@@ -41,9 +41,6 @@
                     <form action="{{ url_for('delete_recipe_template', id=recipe.id) }}" method="post">
                         <button class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-600" type="submit">Удалить</button>
                     </form>
-                    <form action="{{ url_for('update_recipe_template', id=recipe.id) }}" method="post">
-                        <button class="bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600" type="submit">Обновить</button>
-                    </form>
                 </div>
             </div>
             <div class="bg-gray-100 p-4 rounded-lg">

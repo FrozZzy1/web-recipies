@@ -8,7 +8,6 @@ from orm.model import Model
 
 if TYPE_CHECKING:
     from orm.ingredient import IngredientOrm
-    
 
 
 class RecipeOrm(Model):
