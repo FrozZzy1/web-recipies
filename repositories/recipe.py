@@ -51,19 +51,25 @@ class RecipeRepository:
                 .where(RecipeOrm.id == id)
             )
             ingredients_query = await current_session.execute(
-                select(IngredientOrm.name, RecipeIngredientOrm.grams_amount)
-                .join(RecipeIngredientOrm, IngredientOrm.id == RecipeIngredientOrm.ingredient_id)
+                select(IngredientOrm.id, IngredientOrm.name, RecipeIngredientOrm.grams_amount)
+                .join(RecipeIngredientOrm,
+                      IngredientOrm.id == RecipeIngredientOrm.ingredient_id)
                 .filter(RecipeIngredientOrm.recipe_id == id)
             )
             ingredients = ingredients_query.all()
-            
-            ingredients_list = [{'name': ingredient[0], 'grams': ingredient[1]} for ingredient in ingredients]
-            
+
+            ingredients_list = [{
+                'id': ingredient[0],
+                'name': ingredient[1],
+                'grams': ingredient[2]
+                }
+                                for ingredient in ingredients]
+
             result = await current_session.execute(query)
             result_orm: RecipeOrm = result.scalar()
-            
+
             return result_orm, ingredients_list
-        
+
     @classmethod
     async def delete_by_id(cls, id: int):
         async with session() as current_session:

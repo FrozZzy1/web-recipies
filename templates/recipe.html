@@ -18,16 +18,29 @@
                 </div>
             </div>
             <div class="ingredients">
-                <h2 class="text-xl font-semibold mb-4">Ингредиенты</h2>
+                <h2 class="text-xl font-semibold mb-4">Ингредиенты:</h2>
                 <ul class="list-disc list-inside">
                     {% for ingredient in ingredients %}
                         <li class="mb-2">{{ ingredient.name }} - {{ ingredient.grams }} г.</li>
                     {% endfor %}
-                    <li class="mb-2">Сахар - 100 г</li>
-                    <li class="mb-2">Яйца - 100 г.</li>
-                    <li class="mb-2">Какао - 20 г.</li>
-                </ul>
-            </div>
+                </ul><br><br>
+            </div><br><br><br>
+            <h1 class="text-2xl font-bold mb-4">Добавить ингредиент:</h1>
+            <form action="{{ url_for('create_recipe_ingredient_template', recipe_id=recipe.id) }}" method="post">
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="ingredient">Выберите ингредиент: </label>
+                    <select class="border-2 border-gray-300 p-2 w-full rounded-lg" name="ingredient">
+                        {% for ingredient in list_ingredients %}
+                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700" for="grams_amount">Введите граммовку: </label>
+                    <input class="border-2 border-gray-300 p-2 w-full rounded-lg" type="text" id="grams_amount" name="grams_amount" required>
+                </div>
+                <button class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600" type="submit">Добавить ингредиент</button>
+            </form>
         </div>
-
+    </main>
 {% endblock %}

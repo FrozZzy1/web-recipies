@@ -1,7 +1,5 @@
-from fastapi import APIRouter, Depends
-from typing import Annotated
+from fastapi import APIRouter
 
-from models.recipe_ingredient import RecipeIngredient
 from repositories.recipe_ingredient import RecipeIngredientRepository
 
 
@@ -13,10 +11,12 @@ recipe_ingredient_router = APIRouter(
 
 @recipe_ingredient_router.post('')
 async def create(
-    recipe_ingredient: Annotated[RecipeIngredient, Depends()]
+    recipe_id: int,
+    ingredient_id: int,
+    grams_amount: int,
 ):
     recipe_ingredient_id = await RecipeIngredientRepository.create(
-        recipe_ingredient
+        recipe_id, ingredient_id, grams_amount
     )
     return recipe_ingredient_id
 

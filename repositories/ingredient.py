@@ -53,7 +53,7 @@ class IngredientRepository:
             )
             result = await current_session.execute(query)
             result_orm = result.scalars().first()
-
+            
             return result_orm
 
     @classmethod

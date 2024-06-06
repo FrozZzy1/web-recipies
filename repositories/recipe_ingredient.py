@@ -8,17 +8,23 @@ from database.database import session
 from orm.ingredient import IngredientOrm
 from orm.recipe import RecipeOrm
 from orm.recipe_ingredient import RecipeIngredientOrm
+from repositories.ingredient import IngredientRepository
 
 
 class RecipeIngredientRepository:
     @classmethod
-    async def create(cls, data: RecipeIngredient):
+    async def create(
+        cls,
+        recipe_id: int,
+        ingredient_id: int,
+        grams_amount: int
+    ):
         with suppress(sqlalchemy.exc.IntegrityError):
             async with session() as current_session:
                 recipe_ingredient = RecipeIngredientOrm(
-                    recipe_id=data.recipe_id,
-                    ingredient_id=data.ingredient_id,
-                    grams_amount=data.grams_amount,
+                    recipe_id=recipe_id,
+                    ingredient_id=ingredient_id,
+                    grams_amount=grams_amount,
                 )
                 current_session.add(recipe_ingredient)
                 await current_session.commit()
@@ -29,8 +35,6 @@ class RecipeIngredientRepository:
         async with session() as current_session:
             query = (
                 select(RecipeIngredientOrm)
-                # .options(selectinload(RecipeIngredientOrm.recipe))
-                # .options(selectinload(RecipeIngredientOrm.ingredients))
             )
             result = await current_session.execute(query)
             result_orm = result.scalars().all()
@@ -38,7 +42,8 @@ class RecipeIngredientRepository:
                                                           from_attributes=True)
                           for row in result_orm]
             return result_dto
-
+            
+            
     @classmethod
     async def get_all_ingredients_by_recipe(cls, recipe_id: int):
         async with session() as current_session:

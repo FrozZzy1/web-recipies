@@ -25,9 +25,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+
 @app.route('/')
 def hello(request: Request):
     return RedirectResponse('/recipe_pages')
+
 
 app.include_router(category_router)
 app.include_router(ingredient_router)
